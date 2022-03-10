@@ -1,0 +1,1 @@
+## Bot Telegram pra geração de jogos da MegaSena
