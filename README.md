@@ -9,9 +9,9 @@
 - offline
 
 
-### Resultado do último concurso conseguido através da api do [Gustavo Alves](https://github.com/guto-alves/loterias-api)
+## Resultado do último concurso conseguido através da api do [Gustavo Alves](https://github.com/guto-alves/loterias-api)
 
-## Primeiro setup
+### Primeiro setup
 - Fork MegaSena_telegram_bot para sua conta do github
 - Clone o repositorio localmente
 - Crive e ative sua virtualenv
