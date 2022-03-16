@@ -2,4 +2,4 @@
 
 ##  api da caixa por <https://github.com/guto-alves/loterias-api>
 
-## faça um arquivo chave.txt, no mesmo diretorio, e USE A SUA CHAVE FEITA NO BotFather do TELEGRAM
+## faça um arquivo chave.txt, no mesmo diretório raiz, e USE A SUA CHAVE FEITA NO BotFather do TELEGRAM
