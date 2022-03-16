@@ -10,5 +10,13 @@
 
 ### Resultado do último concurso conseguido através da api do [Gustavo Alves](https://github.com/guto-alves/loterias-api)
 
+## Primeiro setup
+- Fork MegaSena_telegram_bot para sua conta do github
+- Clone o repositorio localmente
+- Crive sua virtualenv
+- Instale o reqeuirements.txt
+- Crie um arquivo chave.txt, no mesmo diretório raiz, e cole nele sua chave feita no @BotFather do TELEGRAM
 
-### -->>>>> Crie um arquivo chave.txt, no mesmo diretório raiz, e USE A SUA CHAVE FEITA NO BotFather do TELEGRAM
+
+
+### -->>>>> Contribuições são bem vindas _/\_
