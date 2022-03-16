@@ -1,7 +1,7 @@
 # Bot Telegram pra geração de jogos da MegaSena
 
+![_small_Screenshot_20220315-220450_Telegram](https://user-images.githubusercontent.com/67715164/158497243-196a3b23-945a-4e61-8d62-d0597d21815e.jpg)
 
-![Screenshot_20220315-220450_Telegram](https://user-images.githubusercontent.com/67715164/158497053-49bab816-971c-4330-8f99-5856fe36a7a7.jpg)
 
 
 
