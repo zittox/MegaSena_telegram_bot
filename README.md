@@ -13,7 +13,7 @@
 ## Primeiro setup
 - Fork MegaSena_telegram_bot para sua conta do github
 - Clone o repositorio localmente
-- Crive sua virtualenv
+- Crive e ative sua virtualenv
 - Instale o reqeuirements.txt
 - Crie um arquivo chave.txt, no mesmo diretório raiz, e cole nele sua chave feita no @BotFather do TELEGRAM
 
