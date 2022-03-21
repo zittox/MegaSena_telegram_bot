@@ -20,4 +20,4 @@
 
 
 
-### -->>>>> Contribuições são bem vindas _/\_
+### -->>>>> Contribuições são bem-vindas _/\_
