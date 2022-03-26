@@ -40,7 +40,7 @@ def ultimo_resultado():
 
 
 bini = types.KeyboardButton('/start')
-bpara = types.KeyboardButton('/stop')
+#bpara = types.KeyboardButton('/stop')
 b6 = KeyboardButton('6')
 b7 = KeyboardButton('7')
 b8 = KeyboardButton('8')
@@ -52,14 +52,14 @@ binfo = KeyboardButton('Info')
 k1 = ReplyKeyboardMarkup(resize_keyboard=True)
 k1.row(b6, b7, b8, b9)
 k1.row(bur, bp)
-k1.row(ba,binfo)
-k1.row(bini,bpara)
+k1.row(ba,binfo,bini)
+#k1.row(bini,bpara)
 
 
 @b.message_handler(commands=['start'])
 def resp1(menss):
     b.reply_to(menss,
-               """Bem vindo ao gerador de jogo(s) da Mega Sena!!!  ->> O único momento que vc não vai usar os botões da tela, é quando pesquisar por concurso!\nPara fazer um jogo de 6, 7 , 8 ou 9 números: clique nos núnemros\nOu escolha uma das outras opções""",
+               "Bem vindo ao gerador de jogo(s) da Mega Sena!!!!\nPara fazer um jogo de 6, 7 , 8 ou 9 números: clique nos núnemros\nOu escolha uma das outras opções abaixo ↓↓↓",
                reply_markup=k1)
 
 # será q quando tiver hosteado na nuvem ele volta funcionar com /strat?
@@ -76,14 +76,14 @@ def qual_conc(menss):
         ~~~~ >>> feito por github.com/zittox/\n
         ~~~ >>> api pesquisa de resultado por github.com/guto-alves/loterias-api\n
         Boa sorte na jogatina\n  :":": └[∵┌] └[ ∵ ]┘ [┐∵]┘ :":": \n ''')
-    if menss.text == '6':
+    elif menss.text == '6':
         j = qrandom.sample(range(1, 61), 6)
         j.sort()
         jogox2 = ""
         while j:
             jogox2 = " - ".join(str(i) for i in j)
             break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}')
+        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
     elif menss.text == '7':
         j = qrandom.sample(range(1, 61), 7)
         j.sort()
@@ -91,7 +91,7 @@ def qual_conc(menss):
         while j:
             jogox2 = " - ".join(str(i) for i in j)
             break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}')
+        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
     elif menss.text == '8':
         j = qrandom.sample(range(1, 61), 8)
         j.sort()
@@ -99,7 +99,7 @@ def qual_conc(menss):
         while j:
             jogox2 = " - ".join(str(i) for i in j)
             break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}')
+        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
     elif menss.text == '9':
         j = qrandom.sample(range(1, 61), 9)
         j.sort()
@@ -107,39 +107,45 @@ def qual_conc(menss):
         while j:
             jogox2 = " - ".join(str(i) for i in j)
             break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}')
+        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
     elif menss.text == 'ajuda':
-        b.send_message(menss.chat.id, 'Para fazer um novo jogo ou pesquisar resultados, clique nos botões abaixo')
+        b.send_message(menss.chat.id, 'Para fazer um novo jogo ou pesquisar resultados, clique nos botões abaixo ↓↓↓')
     elif menss.text == 'último resultado':
         b.reply_to(menss, ultimo_resultado())
     elif menss.text == 'pesquise concurso':
         sentm = b.send_message(menss.chat.id, "Digite o número do concurso")
         b.register_next_step_handler(sentm, concurso)
 
-
-def concurso(menss): # fazer a negativa de quando digitar um numero fora da range
+def concurso(menss): # fazer a negativa de quando digitar um numero fora da range de conc
     conc = menss.text
     apicaixaconc = f'https://loteriascaixa-api.herokuapp.com/api/mega-sena/{conc}'
-    r = requests.get(apicaixaconc).json()
-    data = f"Concurso: {r['concurso']}"
-    data1 = f"Data: {r['data']}"
-    data2 = "Dezenas: {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
-                                                          r['dezenas'][3], r['dezenas'][4], r['dezenas'][5])
-    if r['premiacoes'][0]['vencedores'] == 0:
-        venc = f"Vencedores: Não"
-    else:
-        venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}"
-    if r['premiacoes'][0]['premio'] == "-":
-        prem = f"Premiações: 0"
-    else:
-        prem = f"Premiações: R$ {r['premiacoes'][0]['premio']}"
-    if r['acumulou'] == True:
-        data3 = "Acumulou: Sim"
-    else:
-        data3 = "Acumulou: Não"
-    data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
-    data5 = f"Prox_concurso: {r['dataProxConcurso']}"
-    b.reply_to(menss, f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}')
+    if conc is not None:
+        try:
+            r = requests.get(apicaixaconc).json()
+            data = f"Concurso: {r['concurso']}"
+            data1 = f"Data: {r['data']}"
+            data2 = "Dezenas: {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
+                                                                  r['dezenas'][3], r['dezenas'][4], r['dezenas'][5])
+            if r['premiacoes'][0]['vencedores'] == 0:
+                venc = f"Vencedores: Não"
+            else:
+                venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}"
+            if r['premiacoes'][0]['premio'] == "-":
+                prem = f"Premiações: 0"
+            else:
+                prem = f"Premiações: R$ {r['premiacoes'][0]['premio']}"
+            if r['acumulou'] == True:
+                data3 = "Acumulou: Sim"
+            else:
+                data3 = "Acumulou: Não"
+            data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
+            data5 = f"Prox_concurso: {r['dataProxConcurso']}"
+            b.reply_to(menss, f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
+        except ValueError:
+            b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para '
+                              'tentar novamente')
+
+
 
 
 @b.message_handler(content_types=['photo'])
@@ -147,9 +153,9 @@ def foto(menss):
     b.send_message(menss.chat.id, 'bela foto')
 
 
-@b.message_handler(content_types=['input'])
-def qqtexto(menss):
-    b.reply_to(menss, 'Para fazer um novo jogo ou pesquisar resultados, clique nos botões abaixo')
+#@b.message_handler(content_types=['input'])
+#def qqtexto(menss):
+    #b.reply_to(menss, 'Para fazer um novo jogo ou pesquisar resultados, clique nos botões abaixo')
 
 
 
