@@ -72,10 +72,10 @@ def resp2(menss):
 @b.message_handler()
 def qual_conc(menss):
     if menss.text == 'Info':
-        b.reply_to(menss, '''MegaSenaBRbot v4\n
+        b.reply_to(menss, '''MegaSenaBRbot v5\n
         ~~~~ >>> feito por github.com/zittox/\n
         ~~~ >>> api pesquisa de resultado por github.com/guto-alves/loterias-api\n
-        Boa sorte na jogatina\n  :":": └[∵┌] └[ ∵ ]┘ [┐∵]┘ :":": \n ''')
+        Boa sorte na jogatina\n\n  :":": └[∵┌] └[ ∵ ]┘ [┐∵]┘ :":": \n\n ''')
     elif menss.text == '6':
         j = qrandom.sample(range(1, 61), 6)
         j.sort()
