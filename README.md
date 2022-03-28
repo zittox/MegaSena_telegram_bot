@@ -11,7 +11,7 @@
 
 
 ### No momento o bot @MegaSenaBRbot está:
-- ONLINE
+- offline
 
 
 
