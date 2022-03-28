@@ -36,11 +36,11 @@ def ultimo_resultado():
         data3 = "Acumulou: Não"
     data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
     data5 = f"Prox_concurso: {r['dataProxConcurso']}"
-    return f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}'
+    return f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ '
 
 
 bini = types.KeyboardButton('/start')
-#bpara = types.KeyboardButton('/stop')
+# bpara = types.KeyboardButton('/stop')
 b6 = KeyboardButton('6')
 b7 = KeyboardButton('7')
 b8 = KeyboardButton('8')
@@ -52,8 +52,10 @@ binfo = KeyboardButton('Info')
 k1 = ReplyKeyboardMarkup(resize_keyboard=True)
 k1.row(b6, b7, b8, b9)
 k1.row(bur, bp)
-k1.row(ba,binfo,bini)
-#k1.row(bini,bpara)
+k1.row(ba, binfo, bini)
+
+
+# k1.row(bini,bpara)
 
 
 @b.message_handler(commands=['start'])
@@ -61,6 +63,7 @@ def resp1(menss):
     b.reply_to(menss,
                "Bem vindo ao gerador de jogo(s) da Mega Sena!!!!\nPara fazer um jogo de 6, 7 , 8 ou 9 números: clique nos núnemros\nOu escolha uma das outras opções abaixo ↓↓↓",
                reply_markup=k1)
+
 
 # será q quando tiver hosteado na nuvem ele volta funcionar com /strat?
 @b.message_handler(commands=['stop'])
@@ -72,7 +75,7 @@ def resp2(menss):
 @b.message_handler()
 def qual_conc(menss):
     if menss.text == 'Info':
-        b.reply_to(menss, '''MegaSenaBRbot v5\n
+        b.reply_to(menss, '''MegaSenaBRbot v6\n
         ~~~~ >>> feito por github.com/zittox/\n
         ~~~ >>> api pesquisa de resultado por github.com/guto-alves/loterias-api\n
         Boa sorte na jogatina\n\n  :":": └[∵┌] └[ ∵ ]┘ [┐∵]┘ :":": \n\n ''')
@@ -116,10 +119,11 @@ def qual_conc(menss):
         sentm = b.send_message(menss.chat.id, "Digite o número do concurso")
         b.register_next_step_handler(sentm, concurso)
 
-def concurso(menss): # fazer a negativa de quando digitar um numero fora da range de conc
+
+def concurso(menss):
     conc = menss.text
     apicaixaconc = f'https://loteriascaixa-api.herokuapp.com/api/mega-sena/{conc}'
-    if conc is not None:
+    if conc.isnumeric():
         try:
             r = requests.get(apicaixaconc).json()
             data = f"Concurso: {r['concurso']}"
@@ -140,10 +144,36 @@ def concurso(menss): # fazer a negativa de quando digitar um numero fora da rang
                 data3 = "Acumulou: Não"
             data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
             data5 = f"Prox_concurso: {r['dataProxConcurso']}"
-            b.reply_to(menss, f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
+            b.reply_to(menss,
+                       f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
         except ValueError:
-            b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para '
-                              'tentar novamente')
+            b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para tentar novamente')
+    else:
+        b.reply_to(menss, 'Você não digitou número,\naperte o botão -> pesquise concurso <-\n para tentar novamente')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -153,12 +183,9 @@ def foto(menss):
     b.send_message(menss.chat.id, 'bela foto')
 
 
-#@b.message_handler(content_types=['input'])
-#def qqtexto(menss):
-    #b.reply_to(menss, 'Para fazer um novo jogo ou pesquisar resultados, clique nos botões abaixo')
-
-
-
+# @b.message_handler(content_types=['input'])
+# def qqtexto(menss):
+# b.reply_to(menss, 'Para fazer um novo jogo ou pesquisar resultados, clique nos botões abaixo')
 
 
 b.polling()
