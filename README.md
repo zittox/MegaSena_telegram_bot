@@ -6,7 +6,8 @@
 >_____________________________
 >>Usando api de resultados do [Gustavo Alves](https://github.com/guto-alves/loterias-api)
 > _____________________________
-   #   ![_small_Screenshot_20220315-220450_Telegram](https://user-images.githubusercontent.com/67715164/158497243-196a3b23-945a-4e61-8d62-d0597d21815e.jpg)
+   #   ![Screenshot 2022-03-28 144731](https://user-images.githubusercontent.com/67715164/160456958-e695816c-93ef-4df5-b041-80efc285a0a4.png)
+
 
 ### No momento o bot @MegaSenaBRbot está:
 - ONLINE
