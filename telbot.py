@@ -53,15 +53,13 @@ k1 = ReplyKeyboardMarkup(resize_keyboard=True)
 k1.row(b6, b7, b8, b9)
 k1.row(bur, bp)
 k1.row(ba, binfo, bini)
-
-
-# k1.row(bini,bpara)
+k2 = types.ForceReply(selective=False)
 
 
 @b.message_handler(commands=['start'])
 def resp1(menss):
     b.reply_to(menss,
-               "Bem vindo ao gerador de jogo(s) da Mega Sena!!!!\nPara fazer um jogo de 6, 7 , 8 ou 9 números: clique nos núnemros\nOu escolha uma das outras opções abaixo ↓↓↓",
+               "Bem vindo ao gerador de jogo(s) da Mega Sena!!!!\nPara fazer um jogo de 6, 7 , 8 ou 9 números: clique nos números\nOu escolha uma das outras opções abaixo ↓↓↓",
                reply_markup=k1)
 
 
@@ -75,9 +73,10 @@ def resp2(menss):
 @b.message_handler()
 def qual_conc(menss):
     if menss.text == 'Info':
-        b.reply_to(menss, '''MegaSenaBRbot v6\n
-        ~~~~ >>> feito por github.com/zittox/\n
-        ~~~ >>> api pesquisa de resultado por github.com/guto-alves/loterias-api\n
+        b.reply_to(menss, '''MegaSenaBRbot v7\n
+        ~~~~ >>> desenvolvido por github.com/zittox/\n\n
+        ~~~ >>> GOSTOU? ajude a manter este projeto, copie a chave abaixo e contribua com pix\n
+        fb337fa0-a417-4e25-bb23-4cd4c468b820\n\n
         Boa sorte na jogatina\n\n  :":": └[∵┌] └[ ∵ ]┘ [┐∵]┘ :":": \n\n ''')
     elif menss.text == '6':
         j = qrandom.sample(range(1, 61), 6)
@@ -116,7 +115,7 @@ def qual_conc(menss):
     elif menss.text == 'último resultado':
         b.reply_to(menss, ultimo_resultado())
     elif menss.text == 'pesquise concurso':
-        sentm = b.send_message(menss.chat.id, "Digite o número do concurso")
+        sentm = b.send_message(menss.chat.id, "Digite o número do concurso", reply_markup=k2)
         b.register_next_step_handler(sentm, concurso)
 
 
@@ -145,36 +144,11 @@ def concurso(menss):
             data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
             data5 = f"Prox_concurso: {r['dataProxConcurso']}"
             b.reply_to(menss,
-                       f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
+                       f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ', reply_markup=k1)
         except ValueError:
-            b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para tentar novamente')
+            b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k1)
     else:
-        b.reply_to(menss, 'Você não digitou número,\naperte o botão -> pesquise concurso <-\n para tentar novamente')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        b.reply_to(menss, 'Você não digitou número,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k1)
 
 
 
