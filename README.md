@@ -12,7 +12,7 @@
 
 
 
-
+>_____________________________________________________________________________________
 ### Primeiro setup
 - Fork MegaSena_telegram_bot para sua conta do github
 - Clone o repositorio localmente
@@ -23,7 +23,12 @@
 - Crie um arquivo .env, no mesmo diretório raiz, e cole nele sua chave feita no @BotFather do TELEGRAM
 > chave = 'blablbalablabalabalbaalabalbbla'
 
->>Usando a api de resultados do [Gustavo Alves](https://github.com/guto-alves/loterias-api)
+
+
+
+>______________________________________________________________________________________
+
+## Usando a api de resultados do [Gustavo Alves](https://github.com/guto-alves/loterias-api)
 ### -->>>>> Contribuições são bem-vindas _/\_
 
 
