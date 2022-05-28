@@ -8,7 +8,7 @@
 
 
 ### No momento o bot @MegaSenaBRbot está:
-- ONLINE  in railway.app
+- ONLINE  [MegaSenaBRbot](https://t.me/MegaSenaBRbot)
 
 
 
