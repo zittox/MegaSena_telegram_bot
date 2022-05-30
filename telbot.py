@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 from telebot.types import KeyboardButton, ReplyKeyboardMarkup
-import qrandom
+import random
 import requests
 from dotenv import load_dotenv
 import os
@@ -15,28 +15,8 @@ b = telebot.TeleBot(token)
 apicaixa = 'https://loteriascaixa-api.herokuapp.com/api/mega-sena/latest'
 
 
-def ultimo_resultado():
-    apicaixa = 'https://loteriascaixa-api.herokuapp.com/api/mega-sena/latest'
-    r = requests.get(apicaixa).json()
-    data = f"Concurso: {r['concurso']}"
-    data1 = f"Data: {r['data']}"
-    data2 = "Dezenas: {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
-                                                          r['dezenas'][3], r['dezenas'][4], r['dezenas'][5])
-    if r['premiacoes'][0]['vencedores'] == 0:
-        venc = f"Vencedores: Não"
-    else:
-        venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}"
-    if r['premiacoes'][0]['premio'] == "-":
-        prem = f"Premiações: 0"
-    else:
-        prem = f"Premiações: R$ {r['premiacoes'][0]['premio']}"
-    if r['acumulou'] == True:
-        data3 = "Acumulou: Sim"
-    else:
-        data3 = "Acumulou: Não"
-    data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
-    data5 = f"Prox_concurso: {r['dataProxConcurso']}"
-    return f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ '
+
+
 
 
 bini = types.KeyboardButton('/start')
@@ -71,15 +51,15 @@ def resp2(menss):
 
 
 @b.message_handler()
-def qual_conc(menss):
+def botoes(menss):
     if menss.text == 'Info':
-        b.reply_to(menss, '''MegaSenaBRbot v7\n
+        b.reply_to(menss, '''\nMegaSenaBRbot v7.3\n
         ~~~~ >>> desenvolvido por github.com/zittox/\n\n
         ~~~ >>> GOSTOU? ajude a manter este projeto, copie a chave abaixo e contribua com pix\n
         fb337fa0-a417-4e25-bb23-4cd4c468b820\n\n
         Boa sorte na jogatina\n\n  :":": └[∵┌] └[ ∵ ]┘ [┐∵]┘ :":": \n\n ''')
     elif menss.text == '6':
-        j = qrandom.sample(range(1, 61), 6)
+        j = random.sample(range(1, 61), 6)
         j.sort()
         jogox2 = ""
         while j:
@@ -87,7 +67,7 @@ def qual_conc(menss):
             break
         b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
     elif menss.text == '7':
-        j = qrandom.sample(range(1, 61), 7)
+        j = random.sample(range(1, 61), 7)
         j.sort()
         jogox2 = ""
         while j:
@@ -95,7 +75,7 @@ def qual_conc(menss):
             break
         b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
     elif menss.text == '8':
-        j = qrandom.sample(range(1, 61), 8)
+        j = random.sample(range(1, 61), 8)
         j.sort()
         jogox2 = ""
         while j:
@@ -103,7 +83,7 @@ def qual_conc(menss):
             break
         b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ ')
     elif menss.text == '9':
-        j = qrandom.sample(range(1, 61), 9)
+        j = random.sample(range(1, 61), 9)
         j.sort()
         jogox2 = ""
         while j:
@@ -121,19 +101,20 @@ def qual_conc(menss):
 
 def concurso(menss):
     conc = menss.text
-    apicaixaconc = f'https://loteriascaixa-api.herokuapp.com/api/mega-sena/{conc}'
-    if conc.isnumeric():
+    apicaixaconc = f'https://loterias-caixa-gov.herokuapp.com/api/mega-sena/{conc}'
+    if conc.isdecimal():
         try:
             r = requests.get(apicaixaconc).json()
-            data = f"Concurso: {r['concurso']}"
+            data = f"concurso: {r['concurso']}"
             data1 = f"Data: {r['data']}"
             data2 = "Dezenas: {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
                                                                   r['dezenas'][3], r['dezenas'][4], r['dezenas'][5])
-            if r['premiacoes'][0]['vencedores'] == 0:
+            if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
                 venc = f"Vencedores: Não"
             else:
-                venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}"
-            if r['premiacoes'][0]['premio'] == "-":
+                d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
+                venc = "Vencedores: {} - {}".format(r['premiacoes'][0]['vencedores'], str(d))
+            if r['premiacoes'] == [] or r['premiacoes'][0]['premio'] == "-":
                 prem = f"Premiações: 0"
             else:
                 prem = f"Premiações: R$ {r['premiacoes'][0]['premio']}"
@@ -151,6 +132,31 @@ def concurso(menss):
         b.reply_to(menss, 'Você não digitou número,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k1)
 
 
+def ultimo_resultado():
+    apicaixa = 'https://loterias-caixa-gov.herokuapp.com/api/mega-sena/latest'
+    r = requests.get(apicaixa).json()
+    data = f"{r['concurso']}"
+    data1 = f"Data: {r['data']}"
+    data2 = "Dezenas: {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
+                                                          r['dezenas'][3], r['dezenas'][4], r['dezenas'][5])
+    if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
+        venc = f"Vencedores: Não"
+    else:
+        d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
+        venc = f"Vencedores: {r['premiacoes'][0]['vencedores']} - {d}"
+    if r['premiacoes'] == [] or r['premiacoes'][0]['premio'] == "-":
+        prem = f"Premiações: 0"
+    else:
+        prem = f"Premiações: R$ {r['premiacoes'][0]['premio']}"
+    if r['acumulou'] == True:
+        data3 = "Acumulou: Sim"
+    else:
+        data3 = "Acumulou: Não"
+    data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
+    data5 = f"Prox_concurso: {r['dataProxConcurso']}"
+    return f'{data}\n{data1}\n{data2}\n{venc}\n{prem}\n{data3}\n{data4}\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ '
+
+
 
 @b.message_handler(content_types=['photo'])
 def foto(menss):
@@ -162,4 +168,4 @@ def foto(menss):
 # b.reply_to(menss, 'Para fazer um novo jogo ou pesquisar resultados, clique nos botões abaixo')
 
 
-b.polling()
+b.infinity_polling()
