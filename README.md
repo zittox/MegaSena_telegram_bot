@@ -4,7 +4,8 @@
 ## resultado do último concurso 
 ## pesquisa por número de concurso
 
-<img src="https://user-images.githubusercontent.com/67715164/160456958-e695816c-93ef-4df5-b041-80efc285a0a4.png" style="width:28%">
+<img src="https://user-images.githubusercontent.com/67715164/172794974-efbf7e5d-1600-4e96-b70d-98f99adca269.png" style="width:28%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://user-images.githubusercontent.com/67715164/172795254-2505f277-30bd-4fb4-bbf7-938f8a72ef7e.png" style="width:28%"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+
 
 
 ### No momento o bot @MegaSenaBRbot está:
