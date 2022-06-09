@@ -1,6 +1,6 @@
 # Bot de Telegram pra geração de jogos da MegaSena
 
-## Opções de jogos: 6, 7, 8 ou 9 números 
+## Opções de jogos de 6 a 15 números 
 ## resultado do último concurso 
 ## pesquisa por número de concurso
 
