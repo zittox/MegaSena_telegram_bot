@@ -1,8 +1,7 @@
 # Bot de Telegram pra geração e pesquisa de jogos da MegaSena e Lotofácil
 
 #
-
-<img src="https://user-images.githubusercontent.com/67715164/172794974-efbf7e5d-1600-4e96-b70d-98f99adca269.png" width="240" height="426">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://user-images.githubusercontent.com/67715164/172795254-2505f277-30bd-4fb4-bbf7-938f8a72ef7e.png" width="240" height="426"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<img src="https://user-images.githubusercontent.com/67715164/174678303-f9afb8cb-e9b9-4422-861f-d21a78eae858.png" width="240" height="426">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://user-images.githubusercontent.com/67715164/172794974-efbf7e5d-1600-4e96-b70d-98f99adca269.png" width="240" height="426">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="https://user-images.githubusercontent.com/67715164/172795254-2505f277-30bd-4fb4-bbf7-938f8a72ef7e.png" width="240" height="426"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 
 
 
