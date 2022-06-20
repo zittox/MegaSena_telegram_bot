@@ -1,8 +1,7 @@
-# Bot de Telegram pra geração de jogos da MegaSena
+# Bot de Telegram pra geração e pesquisa de jogos da MegaSena e Lotofácil
 
-## Opções de jogos: 6, 7, 8 ou 9 números 
-## resultado do último concurso 
-## pesquisa por número de concurso
+#
+
 
 <img src="https://user-images.githubusercontent.com/67715164/160456958-e695816c-93ef-4df5-b041-80efc285a0a4.png" style="width:28%">
 
