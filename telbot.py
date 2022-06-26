@@ -71,7 +71,6 @@ def resp1(menss):
     b.reply_to(menss,
                "Bem vindo ao MegaSena+ BR Bot !!!!\nEscolha uma das opções abaixo ↓↓↓",
                reply_markup=k5)
-    User.usrid = menss.from_user.id
 
 @b.message_handler(commands=['Lotofácil'])
 def resplotofacil(menss):
