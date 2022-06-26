@@ -65,7 +65,6 @@ k5.row(mp1, mp2)
 k5.row(ba, binfo, bini)
 
 
-
 @b.message_handler(commands=['start'])
 def resp1(menss):
     b.reply_to(menss,
@@ -80,8 +79,6 @@ def resplotofacil(menss):
 @b.message_handler(commands=['MegaSena'])
 def botoes(menss):
     b.send_message(menss.chat.id, 'Escolha uma das opções abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-
-
 
 
 

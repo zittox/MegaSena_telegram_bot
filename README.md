@@ -22,7 +22,6 @@
 > chave = 'blablbalablabalabalbaalabalbbla'
 
 
-
 ###
 
 ## Gostou do projeto? Ajude a manter o Bot ONLINE contribuindo
