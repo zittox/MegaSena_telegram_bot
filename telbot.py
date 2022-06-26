@@ -14,10 +14,6 @@ b = telebot.TeleBot(token)
 
 
 
-
-
-
-
 bini = types.KeyboardButton('/start')
 k2 = types.ForceReply(selective=False)
 #megasena
@@ -69,6 +65,8 @@ k5.row(mp1, mp2)
 k5.row(ba, binfo, bini)
 
 
+class User:
+    usrid = None
 
 
 
@@ -80,6 +78,7 @@ def resp1(menss):
     b.reply_to(menss,
                "Bem vindo ao MegaSena+ BR Bot !!!!\nEscolha uma das opções abaixo ↓↓↓",
                reply_markup=k5)
+    User.usrid = menss.from_user.id
 
 @b.message_handler(commands=['Lotofácil'])
 def resplotofacil(menss):
@@ -98,7 +97,7 @@ def botoes(menss):
 @b.message_handler()
 def botoes(menss):
     if menss.text == 'Info':
-        b.reply_to(menss, '''\n\nMegaSenaBRbot+ v2.0 - Agora também com Lotofácil\n
+        b.reply_to(menss, '''\n\nMegaSenaBRbot+ v2.1 - Agora também com Lotofácil\n
         ~~~~ >>> desenvolvido por github.com/zittox/\n\n
         ~~~ >>> GOSTOU? ajude a manter este projeto, copie a chave abaixo e contribua com pix\n
         fb337fa0-a417-4e25-bb23-4cd4c468b820\n\n
@@ -133,38 +132,14 @@ def botoes(menss):
 #LOTOFACIL_________________________________________________________________________
 
 def faz_jogo_lotofacil(menss):
-    if menss.text == '15':
-        j = random.sample(range(1, 25), 15)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k6)
-    elif menss.text == '16':
-        j = random.sample(range(1, 25), 16)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k6)
-    elif menss.text == '17':
-        j = random.sample(range(1, 25), 17)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k6)
-    elif menss.text == '18':
-        j = random.sample(range(1, 25), 18)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k6)
+    j = random.sample(range(1, 25), int(menss.text))
+    j.sort()
+    jogox2 = ""
+    while j:
+        jogox2 = " - ".join(str(i) for i in j)
+        break
+    b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k6)
+
 
 def concurso_lotofacil(menss):
     conc = menss.text
@@ -208,33 +183,38 @@ def concurso_lotofacil(menss):
 def ultimo_resultado_lotofacil():
     apicaixa = 'https://loterias-caixa-gov.herokuapp.com/api/lotofacil/latest'
     r = requests.get(apicaixa).json()
-    data = f"concurso: {r['concurso']}"
-    data1 = f"Data: {r['data']}"
-    data2 = "Dezenas: {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
-                                                          r['dezenas'][3], r['dezenas'][4], r['dezenas'][5],
-                                                          r['dezenas'][6], r['dezenas'][7], r['dezenas'][8],
-                                                          r['dezenas'][9], r['dezenas'][10], r['dezenas'][11],
-                                                          r['dezenas'][12], r['dezenas'][13], r['dezenas'][14])
-    if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
-        venc = f"Vencedores: Não"
-    else:
-        d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
-        estados = '  '.join(f'{estado[0]} - {estado[1]}' for estado in d)
-        if len(d) == 1:
-            venc = f"Vencedor: {r['premiacoes'][0]['vencedores']}\nEstado:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+    try:
+        data = f"concurso: {r['concurso']}"
+        data1 = f"Data: {r['data']}"
+        data2 = "Dezenas: {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
+                                                              r['dezenas'][3], r['dezenas'][4], r['dezenas'][5],
+                                                              r['dezenas'][6], r['dezenas'][7], r['dezenas'][8],
+                                                              r['dezenas'][9], r['dezenas'][10], r['dezenas'][11],
+                                                              r['dezenas'][12], r['dezenas'][13], r['dezenas'][14])
+        if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
+            venc = f"Vencedores: Não"
         else:
-            venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}\nEstados:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
-    quatpnts = f"14 Pontos: {r['premiacoes'][1]['vencedores']} - R$ {r['premiacoes'][1]['premio']}"
-    trezpnts = f"13 Pontos: {r['premiacoes'][2]['vencedores']} - R$ {r['premiacoes'][2]['premio']}"
-    dozepnts = f"12 Pontos: {r['premiacoes'][3]['vencedores']} - R$ {r['premiacoes'][3]['premio']}"
-    onezpnts = f"11 Pontos: {r['premiacoes'][4]['vencedores']} - R$ {r['premiacoes'][4]['premio']}"
-    if r['acumulou'] == True:
-        data3 = "Acumulou: Sim"
-    else:
-        data3 = "Acumulou: Não"
-    data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
-    data5 = f"Prox_concurso: {r['dataProxConcurso']}"
-    return f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quatpnts}\n\n{trezpnts}\n\n{dozepnts}\n\n{onezpnts}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ \n ou aperte o /start para recomeçar e escolher outra loteria'
+            d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
+            estados = '  '.join(f'{estado[0]} - {estado[1]}' for estado in d)
+            if len(d) == 1:
+                venc = f"Vencedor: {r['premiacoes'][0]['vencedores']}\nEstado:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+            else:
+                venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}\nEstados:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+        quatpnts = f"14 Pontos: {r['premiacoes'][1]['vencedores']} - R$ {r['premiacoes'][1]['premio']}"
+        trezpnts = f"13 Pontos: {r['premiacoes'][2]['vencedores']} - R$ {r['premiacoes'][2]['premio']}"
+        dozepnts = f"12 Pontos: {r['premiacoes'][3]['vencedores']} - R$ {r['premiacoes'][3]['premio']}"
+        onezpnts = f"11 Pontos: {r['premiacoes'][4]['vencedores']} - R$ {r['premiacoes'][4]['premio']}"
+        if r['acumulou'] == True:
+            data3 = "Acumulou: Sim"
+        else:
+            data3 = "Acumulou: Não"
+        data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
+        data5 = f"Prox_concurso: {r['dataProxConcurso']}"
+        return f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quatpnts}\n\n{trezpnts}\n\n{dozepnts}\n\n{onezpnts}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ \n ou aperte o /start para recomeçar e escolher outra loteria'
+    except IndexError:
+        return f'Aguardando atualização dos resultados para o último concurso\nfavor tentar novamente mais tarde\n'
+
+
 #LOTOFACIL_________________________________________________________________________
 
 
@@ -247,87 +227,14 @@ def ultimo_resultado_lotofacil():
 #megasena _________________________________________________________________________
 
 def faz_jogo(menss):
-    if menss.text == '6':
-        j = random.sample(range(1, 61), 6)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '7':
-        j = random.sample(range(1, 61), 7)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '8':
-        j = random.sample(range(1, 61), 8)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '9':
-        j = random.sample(range(1, 61), 9)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '10':
-        j = random.sample(range(1, 61), 10)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '11':
-        j = random.sample(range(1, 61), 11)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '12':
-        j = random.sample(range(1, 61), 12)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '13':
-        j = random.sample(range(1, 61), 13)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '14':
-        j = random.sample(range(1, 61), 14)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
-    elif menss.text == '15':
-        j = random.sample(range(1, 61), 15)
-        j.sort()
-        jogox2 = ""
-        while j:
-            jogox2 = " - ".join(str(i) for i in j)
-            break
-        b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
 
+    j = random.sample(range(1, 61), int(menss.text))
+    j.sort()
+    jogox2 = ""
+    while j:
+        jogox2 = " - ".join(str(i) for i in j)
+        break
+    b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
 
 
 def concurso(menss):
@@ -359,6 +266,7 @@ def concurso(menss):
             data5 = f"Prox_concurso: {r['dataProxConcurso']}"
             b.reply_to(menss,
                        f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quin}\n\n{quad}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
+
         except ValueError:
             b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k1)
     else:
@@ -368,28 +276,32 @@ def concurso(menss):
 def ultimo_resultado():
     apicaixa = 'https://loterias-caixa-gov.herokuapp.com/api/mega-sena/latest'
     r = requests.get(apicaixa).json()
-    data = f"concurso: {r['concurso']}"
-    data1 = f"Data: {r['data']}"
-    data2 = "Dezenas: {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
-                                                          r['dezenas'][3], r['dezenas'][4], r['dezenas'][5])
-    if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
-        venc = f"Vencedores: Não"
-    else:
-        d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
-        estados = '  '.join(f'{estado[0]} - {estado[1]}' for estado in d)
-        if len(d) == 1:
-            venc = f"Vencedor: {r['premiacoes'][0]['vencedores']}\nEstado:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+    try:
+        data = f"concurso: {r['concurso']}"
+        data1 = f"Data: {r['data']}"
+        data2 = "Dezenas: {} - {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
+                                                              r['dezenas'][3], r['dezenas'][4], r['dezenas'][5])
+        if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
+            venc = f"Vencedores: Não"
         else:
-            venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}\nEstados:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
-    quin = f"Quina: {r['premiacoes'][1]['vencedores']} - R$ {r['premiacoes'][1]['premio']}"
-    quad = f"Quadra: {r['premiacoes'][2]['vencedores']} - R$ {r['premiacoes'][2]['premio']}"
-    if r['acumulou'] == True:
-        data3 = "Acumulou: Sim"
-    else:
-        data3 = "Acumulou: Não"
-    data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
-    data5 = f"Prox_concurso: {r['dataProxConcurso']}"
-    return f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quin}\n\n{quad}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ \n ou aperte o /start para recomeçar e escolher outra loteria'
+            d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
+            estados = '  '.join(f'{estado[0]} - {estado[1]}' for estado in d)
+            if len(d) == 1:
+                venc = f"Vencedor: {r['premiacoes'][0]['vencedores']}\nEstado:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+            else:
+                venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}\nEstados:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+        quin = f"Quina: {r['premiacoes'][1]['vencedores']} - R$ {r['premiacoes'][1]['premio']}"
+        quad = f"Quadra: {r['premiacoes'][2]['vencedores']} - R$ {r['premiacoes'][2]['premio']}"
+        if r['acumulou'] == True:
+            data3 = "Acumulou: Sim"
+        else:
+            data3 = "Acumulou: Não"
+        data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
+        data5 = f"Prox_concurso: {r['dataProxConcurso']}"
+
+        return f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quin}\n\n{quad}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ \n ou aperte o /start para recomeçar e escolher outra loteria'
+    except IndexError:
+        return f'Aguardando atualização dos resultados para o último concurso\nfavor tentar novamente mais tarde\n'
 #megasena _________________________________________________________________________
 
 
