@@ -65,13 +65,6 @@ k5.row(mp1, mp2)
 k5.row(ba, binfo, bini)
 
 
-class User:
-    usrid = None
-
-
-
-
-
 
 @b.message_handler(commands=['start'])
 def resp1(menss):
