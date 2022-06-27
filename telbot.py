@@ -165,7 +165,7 @@ def concurso_lotofacil(menss):
             b.reply_to(menss,
                        f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quatpnts}\n\n{trezpnts}\n\n{dozepnts}\n\n{onezpnts}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k6)
         except ValueError:
-            b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k6)
+            b.reply_to(menss, 'Esse número de concurso não existe,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k6)
     else:
         b.reply_to(menss, 'Você não digitou número,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k6)
 
@@ -257,7 +257,7 @@ def concurso(menss):
                        f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quin}\n\n{quad}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
 
         except ValueError:
-            b.reply_to(menss, 'Esse número de concurso não exite,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k1)
+            b.reply_to(menss, 'Esse número de concurso não existe,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k1)
     else:
         b.reply_to(menss, 'Você não digitou número,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k1)
 
