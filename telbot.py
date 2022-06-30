@@ -57,11 +57,37 @@ k6.row(b1a)
 k6.row(urlf, prlf)
 k6.row(ba, binfo, bini)
 
+#quina
+q5 = KeyboardButton('5')
+q6 = KeyboardButton('6')
+q7 = KeyboardButton('7')
+q8 = KeyboardButton('8')
+q9 = KeyboardButton('9')
+q10 = KeyboardButton('10')
+q11 = KeyboardButton('11')
+q12 = KeyboardButton('12')
+q13 = KeyboardButton('13')
+q14 = KeyboardButton('14')
+q15 = KeyboardButton('15')
+k7 = ReplyKeyboardMarkup(resize_keyboard=True)
+k7.row(q5, q6, q7)
+k7.row(q8, q9, q10)
+k7.row(q11, q12, q13)
+k7.row(q14, q15)
+k8 = ReplyKeyboardMarkup(resize_keyboard=True)
+qconc = KeyboardButton('pesquise concurso\nQuina')
+qult = KeyboardButton('último resultado\nQuina')
+qjog = KeyboardButton('fazer jogo - Quina')
+k8.row(qjog)
+k8.row(qult, qconc)
+k8.row(ba, binfo, bini)
+
 #menu principal
 k5 = ReplyKeyboardMarkup(resize_keyboard=True)
 mp1 = KeyboardButton('/MegaSena')
 mp2 = KeyboardButton('/Lotofácil')
-k5.row(mp1, mp2)
+mp3 = KeyboardButton('/Quina')
+k5.row(mp1, mp2, mp3)
 k5.row(ba, binfo, bini)
 
 
@@ -80,13 +106,16 @@ def resplotofacil(menss):
 def botoes(menss):
     b.send_message(menss.chat.id, 'Escolha uma das opções abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k1)
 
+@b.message_handler(commands=['Quina'])
+def quinabotoes(menss):
+    b.send_message(menss.chat.id, 'Escolha uma das opções abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k8)
 
 
 
 @b.message_handler()
 def botoes(menss):
     if menss.text == 'Info':
-        b.reply_to(menss, '''\n\nMegaSenaBRbot+ v2.1 - Agora também com Lotofácil\n
+        b.reply_to(menss, '''\n\nMegaSenaBRbot+ v2.2 - MegaSena, Lotofácil e Quina!\n
         ~~~~ >>> desenvolvido por github.com/zittox/\n\n
         ~~~ >>> GOSTOU? ajude a manter este projeto, copie a chave abaixo e contribua com pix\n
         fb337fa0-a417-4e25-bb23-4cd4c468b820\n\n
@@ -110,12 +139,103 @@ def botoes(menss):
     elif menss.text == 'fazer jogo - MegaSena':
         sentm = b.send_message(menss.chat.id, 'Selecione quantos números tem seu jogo nos botões abaixo', reply_markup=k3)
         b.register_next_step_handler(sentm, faz_jogo)
+    elif menss.text == 'último resultado\nQuina':
+        b.reply_to(menss, ultimo_resultado_quina())
+    elif menss.text == 'pesquise concurso\nQuina':
+        sentm = b.send_message(menss.chat.id, "Digite o número do concurso", reply_markup=k2)
+        b.register_next_step_handler(sentm, concurso_quina)
+    elif menss.text == 'fazer jogo - Quina':
+        sentm = b.send_message(menss.chat.id, 'Selecione quantos números tem seu jogo nos botões abaixo', reply_markup=k7)
+        b.register_next_step_handler(sentm, faz_jogo_quina)
 
 
 
 
 
+#QUINA_________________________________________________________________________
+def faz_jogo_quina(menss):
+    j = random.sample(range(1, 81), int(menss.text))
+    j.sort()
+    jogox2 = ""
+    while j:
+        jogox2 = " - ".join(str(i) for i in j)
+        break
+    b.reply_to(menss, f'Seu jogo é:  {jogox2}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k8)
 
+
+
+def concurso_quina(menss):
+    conc = menss.text
+    apicaixaconc = f'https://loterias-caixa-gov.herokuapp.com/api/quina/{conc}'
+    if conc.isdecimal():
+        try:
+            r = requests.get(apicaixaconc).json()
+            data = f"concurso: {r['concurso']}"
+            data1 = f"Data: {r['data']}"
+            data2 = "Dezenas: {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
+                                                                  r['dezenas'][3], r['dezenas'][4])
+            if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
+                venc = f"Vencedores: Não"
+            else:
+                d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
+                estados = '  '.join(f'{estado[0]} - {estado[1]}' for estado in d)
+                if len(d) == 1:
+                    venc = f"Vencedor: {r['premiacoes'][0]['vencedores']}\nEstado:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+                else:
+                    venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}\nEstados:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+            quad = f"Quadra: {r['premiacoes'][1]['vencedores']} - R$ {r['premiacoes'][1]['premio']}"
+            tern = f"Terno: {r['premiacoes'][2]['vencedores']} - R$ {r['premiacoes'][2]['premio']}"
+            if len(r['premiacoes']) < 4:
+                duq = f"Duque: Não"
+            else:
+                duq = f"Duque: {r['premiacoes'][3]['vencedores']} - R$ {r['premiacoes'][3]['premio']}"
+            if r['acumulou'] == True:
+                data3 = "Acumulou: Sim"
+            else:
+                data3 = "Acumulou: Não"
+            data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
+            data5 = f"Prox_concurso: {r['dataProxConcurso']}"
+            b.reply_to(menss,
+                       f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quad}\n\n{tern}\n\n{duq}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓\n ou aperte o /start para recomeçar e escolher outra loteria', reply_markup=k8)
+
+        except ValueError:
+            b.reply_to(menss, 'Esse número de concurso não existe,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k8)
+
+    else:
+        b.reply_to(menss, 'Você não digitou número,\naperte o botão -> pesquise concurso <-\n para tentar novamente', reply_markup=k8)
+
+
+def ultimo_resultado_quina():
+    apicaixa = 'https://loterias-caixa-gov.herokuapp.com/api/quina/latest'
+    r = requests.get(apicaixa).json()
+    try:
+        data = f"concurso: {r['concurso']}"
+        data1 = f"Data: {r['data']}"
+        data2 = "Dezenas: {} - {} - {} - {} - {}".format(r['dezenas'][0], r['dezenas'][1], r['dezenas'][2],
+                                                         r['dezenas'][3], r['dezenas'][4])
+        if r['premiacoes'] == [] or r['premiacoes'][0]['vencedores'] == 0:
+            venc = f"Vencedores: Não"
+        else:
+            d = [[estado["uf"], estado["vencedores"]] for estado in r["estadosPremiados"]]
+            estados = '  '.join(f'{estado[0]} - {estado[1]}' for estado in d)
+            if len(d) == 1:
+                venc = f"Vencedor: {r['premiacoes'][0]['vencedores']}\nEstado:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+            else:
+                venc = f"Vencedores: {r['premiacoes'][0]['vencedores']}\nEstados:  {estados}\nPremiação: R$ {r['premiacoes'][0]['premio']}"
+        quad = f"Quadra: {r['premiacoes'][1]['vencedores']} - R$ {r['premiacoes'][1]['premio']}"
+        tern = f"Terno: {r['premiacoes'][2]['vencedores']} - R$ {r['premiacoes'][2]['premio']}"
+        duq = f"Duque: {r['premiacoes'][3]['vencedores']} - R$ {r['premiacoes'][3]['premio']}"
+        if r['acumulou'] == True:
+            data3 = "Acumulou: Sim"
+        else:
+            data3 = "Acumulou: Não"
+        data4 = f"Prox_prêmio: {r['acumuladaProxConcurso']}"
+        data5 = f"Prox_concurso: {r['dataProxConcurso']}"
+
+        return f'{data}\n\n{data1}\n\n{data2}\n\n{venc}\n\n{quad}\n\n{tern}\n\n{duq}\n\n{data3}\n\n{data4}\n\n{data5}\n\n Quer tentar mais alguma opção?\ncontinue nos botões abaixo ↓↓↓ \n ou aperte o /start para recomeçar e escolher outra loteria'
+    except IndexError:
+        return f'Aguardando atualização dos resultados para o último concurso\nfavor tentar novamente mais tarde\n'
+#QUINA_________________________________________________________________________
 
 
 #LOTOFACIL_________________________________________________________________________
