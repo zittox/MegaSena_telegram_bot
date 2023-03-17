@@ -25,7 +25,6 @@
 ###
 
 ## Gostou do projeto? Ajude a manter o Bot ONLINE contribuindo
-- por chave pix -- fb337fa0-a417-4e25-bb23-4cd4c468b820
 - por [paypal](https://www.paypal.com/donate/?business=8GTDHP8TTEMUJ&no_recurring=0&item_name=Thank+you%21+This+means+a+lot+to+me+and+to+this+project.&currency_code=BRL)
 
 ##
