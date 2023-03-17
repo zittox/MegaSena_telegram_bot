@@ -6,7 +6,7 @@
 
 
 ### No momento o bot @MegaSenaBRbot está:
-- ONLINE  [MegaSenaBRbot](https://t.me/MegaSenaBRbot)
+- OFFLINE  [MegaSenaBRbot](https://t.me/MegaSenaBRbot)
 
 
 
